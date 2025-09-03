@@ -18,12 +18,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export function HomeScreen() {
   const navigation = router;
-  const { data, loading, error } =
+  const { data, loading, error, refetch } =
     useQuery<GetShipmentsDataTypes>(GET_SHIPMENTS);
 
   useEffect(() => {
     store.fetchInitial();
-    console.log(JSON.stringify(data?.shipments[0], null, 2));
   }, [loading, data]);
 
   if (store.loading)
@@ -37,6 +36,8 @@ export function HomeScreen() {
   if (store.error) return <ThemedText>{store.error}</ThemedText>;
 
   const renderItem = ({ item }: any) => {
+    console.log(JSON.stringify(item, null, 2));
+
     const handleItem = () =>
       navigation.navigate({
         pathname: "/bid",

@@ -1,4 +1,4 @@
-import { fetchShipments } from "@/services/api";
+import { client, GET_SHIPMENTS } from "@/gql/client";
 import { cast, flow, types } from "mobx-state-tree";
 
 const Shipment = types.model("Shipments", {
@@ -25,8 +25,11 @@ const RootStore = types
       self.loading = true;
       self.error = null;
       try {
-        const data = yield fetchShipments(1);
-        self.shipments = cast(data);
+        const res = yield client.query({
+          query: GET_SHIPMENTS,
+          fetchPolicy: "network-only",
+        });
+        self.shipments = cast(res.data.shipments);
       } catch (e: any) {
         self.error = e?.message ?? "Failed to load shipments";
       } finally {
@@ -37,8 +40,12 @@ const RootStore = types
       self.refreshing = true;
       self.error = null;
       try {
-        const data = yield fetchShipments(1);
-        self.shipments = cast(data);
+        yield new Promise((resolve) => setTimeout(resolve, 2000));
+        const res = yield client.query({
+          query: GET_SHIPMENTS,
+          fetchPolicy: "network-only",
+        });
+        self.shipments = cast(res.data.shipments);
         // self.page = 1; // reset page since we reloaded
         // self.hasMore = data.length > 0; // keep hasMore accurate
       } catch (e: any) {
