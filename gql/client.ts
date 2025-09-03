@@ -18,8 +18,8 @@ const GET_SHIPMENTS = gql`
   }
 `;
 
-const PLACE_BID = gql`
-  mutation TryBid($id: ID!, $amount: Int!) {
+export const PLACE_BID = gql`
+  mutation PlaceBid($id: ID!, $amount: Int!) {
     placeBid(id: $id, amount: $amount) {
       id
       price

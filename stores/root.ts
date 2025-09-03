@@ -25,8 +25,8 @@ const RootStore = types
       self.loading = true;
       self.error = null;
       try {
-        const data = yield fetchShipments(1); // call your API
-        self.shipments = cast(data); // replace array contents
+        const data = yield fetchShipments(1);
+        self.shipments = cast(data);
       } catch (e: any) {
         self.error = e?.message ?? "Failed to load shipments";
       } finally {
@@ -38,7 +38,7 @@ const RootStore = types
       self.error = null;
       try {
         const data = yield fetchShipments(1);
-        self.shipments = cast(data); // replace list
+        self.shipments = cast(data);
         // self.page = 1; // reset page since we reloaded
         // self.hasMore = data.length > 0; // keep hasMore accurate
       } catch (e: any) {
